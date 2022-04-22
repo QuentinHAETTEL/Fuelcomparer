@@ -1,0 +1,9 @@
+@use 'sass:list';
+
+$cursor-values: auto, pointer;
+
+@mixin cursor($type) {
+    @if $type != '' and list.index($cursor-values, $type) {
+        cursor: $type;
+    }
+}

@@ -13,7 +13,9 @@ Encore
     .addEntry('vue', './assets/vue/index.ts')
     .addStyleEntry('main', './assets/styles/main.scss')
 
-    .enableSassLoader()
+    .enableSassLoader((config) => {
+        config.additionalData = '@import "./assets/styles/settings/index";';
+    })
     .enableVueLoader()
     .enableTypeScriptLoader()
     .addAliases({
