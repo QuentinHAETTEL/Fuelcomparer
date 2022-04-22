@@ -1,0 +1,14 @@
+{
+    "dashboard": {
+        "title": "Le prix du carburant, proche de chez vous !",
+        "searchbarPlaceholder": "Ville ou Code postal",
+        "options": {
+            "showMore": "Afficher plus d'options",
+            "distance": "Distance",
+            "fuelType": "Type de carburant",
+            "gasoline": "Essence",
+            "diesel": "Diesel"
+        },
+        "search": "Rechercher"
+    }
+}

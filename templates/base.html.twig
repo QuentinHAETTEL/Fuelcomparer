@@ -2,9 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>{% block title %}Fuelcomparer{% endblock %}</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('main') }}
+            {{ encore_entry_link_tags('vue') }}
         {% endblock %}
 
         {% block javascripts %}
@@ -14,6 +17,10 @@
     </head>
 
     <body>
-        {% block body %}{% endblock %}
+        <main class="container-fluid">
+            <section class="box">
+                {% block content %}{% endblock %}
+            </section>
+        </main>
     </body>
 </html>

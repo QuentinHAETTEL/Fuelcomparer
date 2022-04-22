@@ -1,5 +1,17 @@
-@import '~bootstrap/scss/bootstrap.scss';
+// ***** SETTINGS *****
+@import 'settings/index';
 
-body {
-    background-color: lightgray;
-}
+
+// ***** LIBRARIES *****
+@import '~bootstrap/scss/bootstrap';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+
+
+// ***** TOOLS *****
+@import 'tools/cursor';
+
+
+// ***** COMPONENTS *****
+@import 'components/autocomplete';
+@import 'components/box';

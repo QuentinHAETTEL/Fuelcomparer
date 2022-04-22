@@ -1,0 +1,37 @@
+.autocomplete {
+    position: relative;
+
+    &--open {
+        input {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            box-shadow: none;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translate(0, -50%);
+        @include cursor(pointer);
+    }
+
+    &__list {
+        position: absolute;
+        width: calc(100% - 1.5rem);
+        max-height: 305px;
+        border: $list-group-border-width solid $list-group-border-color;
+        border-top: 0;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        overflow-y: scroll;
+        z-index: 10;
+    }
+
+    &__item {
+        padding: 1rem;
+        border-top: 0;
+        border-bottom: 0;
+    }
+}
