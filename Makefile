@@ -6,6 +6,9 @@ install:
 cc:
 	bin/console c:c
 
+migrate:
+	bin/console doctrine:migrations:migrate --no-interaction
+
 wp-watch:
 	npm run watch
 
