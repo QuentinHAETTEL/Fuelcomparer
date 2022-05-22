@@ -14,3 +14,4 @@ wp-watch:
 
 test:
 	vendor/bin/phpstan analyse -c tests/phpstan.neon
+	vendor/bin/phpunit tests/ --coverage-clover phpunit.coverage.xml
