@@ -36,4 +36,12 @@ class StationRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    public function clearTable(): void
+    {
+        $this->createQueryBuilder('station')
+            ->delete()
+            ->getQuery()
+            ->execute();
+    }
 }
