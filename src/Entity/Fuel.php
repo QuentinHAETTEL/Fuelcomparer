@@ -19,6 +19,9 @@ class Fuel
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name;
 
+    #[ORM\Column(type: 'string', length: 5)]
+    private ?string $type;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Fuel
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
