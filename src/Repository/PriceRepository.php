@@ -36,4 +36,12 @@ class PriceRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    public function clearTable(): void
+    {
+        $this->createQueryBuilder('price')
+            ->delete()
+            ->getQuery()
+            ->execute();
+    }
 }

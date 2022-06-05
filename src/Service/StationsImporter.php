@@ -9,15 +9,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use ZipArchive;
 
 class StationsImporter
 {
     public const PATH = '/data/import/';
-    public const URL = 'https://donnees.roulez-eco.fr/opendata/instantane';
-    public const ENHANCED_URL = 'https://raw.githubusercontent.com/openeventdatabase/datasources/master/fr.prix-carburants/stations.json';
+    public const JSON_URL = 'https://raw.githubusercontent.com/openeventdatabase/datasources/master/fr.prix-carburants/stations.json';
 
-    public function __construct(private KernelInterface $kernel, private EntityManagerInterface $em, private StationRepository $stationRepository)
+    public function __construct(private XmlDownloader $downloader, private KernelInterface $kernel, private EntityManagerInterface $em, private StationRepository $stationRepository)
     {
     }
 
@@ -26,13 +24,11 @@ class StationsImporter
     {
         $this->stationRepository->clearTable();
 
-        $io?->info('Downloading XML ...');
-        $xmlPath = $this->getXmlFilePath();
+        $xmlPath = $this->downloader->download($io);
         if (!$xmlPath) {
-            $io?->error('An error occurred during the download of the XML file');
             return false;
         }
-        $io?->info('Download complete');
+
         if (!$this->extractFromXml($xmlPath, $io)) {
             $io?->error('An error occurred during XML extraction');
             return false;
@@ -141,37 +137,6 @@ class StationsImporter
 
 
     /**
-     * Download and return path of XML file (null if an error occurred)
-     */
-    private function getXmlFilePath(): ?string
-    {
-        $filename = date('Y-m-d') . '.xml';
-        $directory = $this->kernel->getProjectDir() . self::PATH;
-        $path = $directory . $filename;
-
-        if (file_exists($path)) {
-            return $path;
-        }
-
-        $tmp = tmpfile();
-        $tmpPath = stream_get_meta_data($tmp)['uri'];
-        if (!copy(self::URL, $tmpPath)) {
-            return null;
-        }
-
-        $zip = new ZipArchive();
-        if ($zip->open($tmpPath) !== true) {
-            return null;
-        }
-        $zip->renameName($zip->getNameIndex(0), $filename);
-        $zip->extractTo($directory, $filename);
-        $zip->close();
-
-        return $path;
-    }
-
-
-    /**
      * Download and return path of JSON file (null if an error occurred)
      */
     private function getJsonFilePath(): ?string
@@ -181,7 +146,7 @@ class StationsImporter
             return $path;
         }
 
-        $content = file_get_contents(self::ENHANCED_URL);
+        $content = file_get_contents(self::JSON_URL);
         if (!$content) {
             return null;
         }

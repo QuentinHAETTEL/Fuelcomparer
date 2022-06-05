@@ -5,6 +5,7 @@ namespace App\Tests\Service;
 use App\Entity\Station;
 use App\Repository\StationRepository;
 use App\Service\StationsImporter;
+use App\Service\XmlDownloader;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -17,10 +18,11 @@ class StationsImporterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $downloader = $this->createMock(XmlDownloader::class);
         $kernel = $this->createMock(KernelInterface::class);
         $em = $this->createMock(EntityManagerInterface::class);
         $stationRepository = $this->createMock(StationRepository::class);
-        $this->stationsImporter = new StationsImporter($kernel, $em, $stationRepository);
+        $this->stationsImporter = new StationsImporter($downloader, $kernel, $em, $stationRepository);
     }
 
 
