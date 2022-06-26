@@ -30,12 +30,12 @@ class StationsImporterTest extends TestCase
     {
         $data = [
             '@id' => 1234567,
-            '@latitude' => 50.1999,
-            '@longitude' => 32.1224,
+            '@latitude' => 5012345.678,
+            '@longitude' => 3212244.567,
             '@cp' => 75000,
             '@pop' => 'R',
             'adresse' => 'Rue de la forêt',
-            'ville' => 'Paris'
+            'ville' => 'Saint-Étienne'
         ];
 
         $station = $this->stationsImporter->hydrate($data);
@@ -43,7 +43,9 @@ class StationsImporterTest extends TestCase
         $this->assertEquals('1234567', $station->getCode());
         $this->assertEquals('Rue de la forêt', $station->getAddress());
         $this->assertEquals('75000', $station->getPostcode());
-        $this->assertEquals('PARIS', $station->getCity());
+        $this->assertEquals('SAINT-ETIENNE', $station->getCity());
+        $this->assertEquals('50.12345678', $station->getLatitude());
+        $this->assertEquals('32.12244567', $station->getLongitude());
     }
 
 

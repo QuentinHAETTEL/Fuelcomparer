@@ -30,6 +30,12 @@ class Station
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $city;
 
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 8, nullable: true)]
+    private ?string $latitude;
+
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 8, nullable: true)]
+    private ?string $longitude;
+
     #[ORM\OneToMany(mappedBy: 'station', targetEntity: Price::class, orphanRemoval: true)]
     private Collection $prices;
 
@@ -99,6 +105,30 @@ class Station
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?string $latitude): self
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?string $longitude): self
+    {
+        $this->longitude = $longitude;
 
         return $this;
     }
