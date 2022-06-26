@@ -9,6 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\String\UnicodeString;
 
 class StationsImporter
 {
@@ -129,7 +130,17 @@ class StationsImporter
             $station->setPostcode($row['@cp']);
         }
         if (array_key_exists('ville', $row)) {
-            $station->setCity(strtoupper($row['ville']));
+            $city = (new UnicodeString($row['ville']))
+                ->ascii()
+                ->upper();
+
+            $station->setCity($city);
+        }
+        if (array_key_exists('@latitude', $row)) {
+            $station->setLatitude($row['@latitude'] / 100000);
+        }
+        if (array_key_exists('@longitude', $row)) {
+            $station->setLongitude($row['@longitude'] / 100000);
         }
 
         return $station;
