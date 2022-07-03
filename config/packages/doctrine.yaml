@@ -12,6 +12,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+        dql:
+            numeric_functions:
+                ACOS: DoctrineExtensions\Query\Mysql\Acos
+                COS: DoctrineExtensions\Query\Mysql\Cos
+                PI: DoctrineExtensions\Query\Mysql\Pi
+                SIN: DoctrineExtensions\Query\Mysql\Sin
 
 when@test:
     doctrine:

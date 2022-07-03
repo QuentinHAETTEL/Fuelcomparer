@@ -21,6 +21,7 @@ class StationRepository extends ServiceEntityRepository
         parent::__construct($registry, Station::class);
     }
 
+
     public function add(Station $entity, bool $flush = false): void
     {
         $this->_em->persist($entity);
@@ -28,6 +29,7 @@ class StationRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
 
     public function remove(Station $entity, bool $flush = false): void
     {
@@ -37,11 +39,45 @@ class StationRepository extends ServiceEntityRepository
         }
     }
 
+
     public function clearTable(): void
     {
         $this->createQueryBuilder('station')
             ->delete()
             ->getQuery()
             ->execute();
+    }
+
+
+    /**
+     * @return mixed[]
+     */
+    public function findStationsInRadius(float $latitude, float $longitude, int $distance): array
+    {
+//        https://ourcodeworld.com/articles/read/1019/how-to-find-nearest-locations-from-a-collection-of-coordinates-latitude-and-longitude-with-php-mysql
+        $calculation = '
+            (
+                (
+                    (
+                        acos(
+                            sin(( :latitude * pi() / 180))
+                            *
+                            sin(( station.latitude * pi() / 180)) + cos(( :latitude * pi() /180 ))
+                            *
+                            cos(( station.latitude * pi() / 180)) * cos((( :longitude - station.longitude) * pi()/180))
+                        )
+                    ) * 180/pi()
+                ) * 60 * 1.1515 * 1.609344
+            )
+        ';
+
+        return $this->createQueryBuilder('station')
+            ->addSelect($calculation)
+            ->andWhere($calculation . ' <= :distance')
+            ->setParameter('latitude', $latitude)
+            ->setParameter('longitude', $longitude)
+            ->setParameter('distance', $distance)
+            ->getQuery()
+            ->getResult();
     }
 }
