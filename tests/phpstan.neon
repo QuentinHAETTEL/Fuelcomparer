@@ -1,0 +1,14 @@
+includes:
+    - ../vendor/phpstan/phpstan-symfony/extension.neon
+    - ../vendor/phpstan/phpstan-symfony/rules.neon
+    - ../vendor/phpstan/phpstan-doctrine/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - ../src
+    excludePaths:
+        - migrations/*
+    checkGenericClassInNonGenericObjectType: false
+    doctrine:
+        objectManagerLoader: object-manager.php
